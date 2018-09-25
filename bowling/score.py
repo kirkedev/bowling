@@ -15,10 +15,19 @@ def score_throw(throw: str) -> int:
   else:
     return int(throw)
 
-def find_strike(throws: str) -> Iterator[int]:
+def find_strikes(throws: str) -> Iterator[int]:
   for i, throw in enumerate(throws):
     if throw == 'X':
       yield i
 
 def score_throws(throws: str) -> int:
-  return reduce(add, map(score_throw, throws))
+  strikes = find_strikes(throws)
+
+  total = 0
+
+  for strike in strikes:
+    total += score_throws(throws[strike + 1: strike + 3])
+
+  total += reduce(add, map(score_throw, throws))
+
+  return total
