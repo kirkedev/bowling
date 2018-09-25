@@ -1,6 +1,10 @@
 from functools import reduce
 from operator import add
-from typing import Iterator
+from typing import Iterator, Tuple, List
+
+Throw = Tuple[int, str]
+Frame = List[Throw]
+Game = Iterator[Frame]
 
 def score_throw(throw: str) -> int:
   if throw == 'X':
@@ -15,19 +19,32 @@ def score_throw(throw: str) -> int:
   else:
     return int(throw)
 
-def find_strikes(throws: str) -> Iterator[int]:
+def split_frames(throws: str) -> Game:
+  frame: List[Throw] = list()
+
   for i, throw in enumerate(throws):
-    if throw == 'X':
-      yield i
+    print(i, throw)
+    frame.append((i, throw))
+
+    if throw == 'X' or len(frame) == 2:
+      yield frame.copy()
+      frame.clear()
 
 def score_throws(throws: str) -> int:
-  strikes = find_strikes(throws)
-
   total = 0
 
-  for strike in strikes:
-    total += score_throws(throws[strike + 1: strike + 3])
+  for frame in split_frames(throws):
+    print(frame)
+    i, last_throw = frame[-1]
 
-  total += reduce(add, map(score_throw, throws))
+    if last_throw == 'X':
+      total += 10 + score_throws(throws[i + 1: i + 3])
+
+    elif last_throw == '/':
+      total += 10 + score_throw(throws[i + 1])
+
+    else:
+      for i, throw in frame:
+        total += score_throw(throw)
 
   return total
