@@ -1,5 +1,5 @@
 from unittest import TestCase
-from bowling.score import score_throw
+from bowling.score import score_throw, score_throws
 
 class ScoringTest(TestCase):
   def test_x_is_ten(self):
@@ -14,3 +14,8 @@ class ScoringTest(TestCase):
   def test_other_is_value(self):
     self.assertEqual(score_throw('9'), 9)
     self.assertEqual(score_throw('5'), 5)
+
+  def test_multiple_throws(self):
+    self.assertEqual(score_throws('9876'), 30)
+    self.assertEqual(score_throws('----'), 0)
+    self.assertEqual(score_throws('9--6'), 15)

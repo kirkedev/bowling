@@ -1,3 +1,6 @@
+from functools import reduce
+from operator import add
+
 def score_throw(throw: str) -> int:
   if throw == 'X':
     return 10
@@ -10,3 +13,6 @@ def score_throw(throw: str) -> int:
 
   else:
     return int(throw)
+
+def score_throws(throws: str) -> int:
+  return reduce(add, map(score_throw, throws))
