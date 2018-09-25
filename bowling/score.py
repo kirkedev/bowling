@@ -1,5 +1,6 @@
 from functools import reduce
 from operator import add
+from typing import Iterator
 
 def score_throw(throw: str) -> int:
   if throw == 'X':
@@ -13,6 +14,11 @@ def score_throw(throw: str) -> int:
 
   else:
     return int(throw)
+
+def find_strike(throws: str) -> Iterator[int]:
+  for i, throw in enumerate(throws):
+    if throw == 'X':
+      yield i
 
 def score_throws(throws: str) -> int:
   return reduce(add, map(score_throw, throws))

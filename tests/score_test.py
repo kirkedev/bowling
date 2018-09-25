@@ -1,5 +1,5 @@
 from unittest import TestCase
-from bowling.score import score_throw, score_throws
+from bowling.score import score_throw, score_throws, find_strike
 
 class ScoringTest(TestCase):
   def test_x_is_ten(self):
@@ -19,3 +19,6 @@ class ScoringTest(TestCase):
     self.assertEqual(score_throws('9876'), 30)
     self.assertEqual(score_throws('----'), 0)
     self.assertEqual(score_throws('9--6'), 15)
+
+  def test_find_strike(self):
+    self.assertEqual(list(find_strike('X12')), [0])
