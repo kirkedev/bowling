@@ -22,3 +22,4 @@ class ScoringTest(TestCase):
 
   def test_find_strike(self):
     self.assertEqual(list(find_strike('X12')), [0])
+    self.assertEqual(list(find_strike('X1X11')), [0, 2])
