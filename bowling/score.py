@@ -18,21 +18,32 @@ def score_throw(throw: str) -> int:
 
 def split_frames(throws: str) -> Iterator[Frame]:
   frame: List[Throw] = []
+  frame_number = 1
 
   for i, throw in enumerate(throws):
-    frame.append((i, throw))
+    if frame_number == 10:
+      yield list(zip(range(i, len(throws)), throws[i:]))
+      return
 
-    if throw == 'X' or len(frame) == 2:
-      yield frame.copy()
-      frame.clear()
+    else:
+      frame.append((i, throw))
+
+      if throw == 'X' or len(frame) == 2:
+        yield frame.copy()
+        frame.clear()
+        frame_number += 1
 
 def score_frame(throws: str, frame: Frame) -> int:
-  i, last_throw = frame[-1]
+  throw, *_ = frame
 
-  if last_throw == 'X':
+  if throw[1] == 'X':
+    i = throw[0]
     return 10 + score_game(throws[i + 1: i + 3])
 
-  elif last_throw == '/':
+  _, throw, *_ = frame
+
+  if throw[1] == '/':
+    i = throw[0]
     return 10 + score_throw(throws[i + 1])
 
   else:
