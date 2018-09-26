@@ -28,21 +28,8 @@ def split_frames(throws: str) -> Iterator[str]:
         frame = ''
         frame_number += 1
 
-def score_frame(throws: str, frame: str) -> int:
-  throw, *_ = frame
-
-  if throw[1] == 'X':
-    i = throw[0]
-    return 10 + score_game(throws[i + 1: i + 3])
-
-  _, throw, *_ = frame
-
-  if throw[1] == '/':
-    i = throw[0]
-    return 10 + score_throw(throws[i + 1])
-
-  else:
-    return sum(map(lambda it: score_throw(it[1]), frame))
+def score_throws(throws: str) -> int:
+  return sum(map(score_throw, throws))
 
 def score_game(throws: str) -> int:
-  return sum(map(lambda it: score_frame(throws, it), split_frames(throws)))
+  return sum(map(score_throws, split_frames(throws)))
