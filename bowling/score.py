@@ -4,10 +4,7 @@ Throw = Tuple[int, str]
 Frame = List[Throw]
 
 def score_throw(throw: str) -> int:
-  if throw == 'X':
-    return 10
-
-  elif throw == '/':
+  if throw in ('X', '/'):
     return 10
 
   elif throw == '-':
