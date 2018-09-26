@@ -1,3 +1,4 @@
+from itertools import accumulate
 from typing import Iterator, Tuple, List
 
 def score_throw(throw: str) -> int:
@@ -48,7 +49,7 @@ def score_throws(throws: str) -> int:
 
 def score_frame(frame: str) -> int:
   if is_strike(frame):
-    return 10 + score_throws(frame[1:]) * 2
+    return 10 + score_throws(frame[1:])
 
   if is_spare(frame):
     return 10 + score_throws(frame[2])
@@ -56,3 +57,5 @@ def score_frame(frame: str) -> int:
   else:
     return score_throws(frame)
 
+def score_game(throws: str) -> Iterator[int]:
+  return accumulate(map(score_frame, split_frames(throws)))
