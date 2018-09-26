@@ -1,5 +1,3 @@
-from functools import reduce
-from operator import add
 from typing import Iterator, Tuple, List
 
 Throw = Tuple[int, str]
@@ -38,7 +36,7 @@ def score_frame(throws: str, frame: Frame) -> int:
     return 10 + score_throw(throws[i + 1])
 
   else:
-    return reduce(add, map(lambda it: score_throw(it[1]), frame))
+    return sum(map(lambda it: score_throw(it[1]), frame))
 
 def score_game(throws: str) -> int:
-  return reduce(add, map(lambda it: score_frame(throws, it), split_frames(throws)), 0)
+  return sum(map(lambda it: score_frame(throws, it), split_frames(throws)))
