@@ -46,5 +46,13 @@ def split_frames(throws: str) -> Iterator[str]:
 def score_throws(throws: str) -> int:
   return sum(map(score_throw, throws))
 
-def score_game(throws: str) -> int:
-  return sum(map(score_throws, split_frames(throws)))
+def score_frame(frame: str) -> int:
+  if is_strike(frame):
+    return 10 + score_throws(frame[1:]) * 2
+
+  if is_spare(frame):
+    return 10 + score_throws(frame[2])
+
+  else:
+    return score_throws(frame)
+
