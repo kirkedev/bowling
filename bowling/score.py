@@ -29,23 +29,22 @@ def split_frames(throws: str) -> Iterator[str]:
       yield throws[i:]
       return
 
+    end = i + 2
+    frame = throws[i:end]
+
+    if is_strike(frame):
+      yield frame + throws[end: end + 1]
+
     else:
-      end = i + 2
-      frame = throws[i:end]
-
-      if is_strike(frame):
+      if is_spare(frame):
         yield frame + throws[end: end + 1]
-
       else:
-        if is_spare(frame):
-          yield frame + throws[end: end + 1]
-        else:
-          yield frame
+        yield frame
 
-        i += 1
-
-      frame_number += 1
       i += 1
+
+    frame_number += 1
+    i += 1
 
 def score_frame(frame: str) -> int:
   if is_strike(frame):
