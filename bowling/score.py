@@ -10,23 +10,38 @@ def score_throw(throw: str) -> int:
   else:
     return int(throw)
 
-def split_frames(throws: str) -> Iterator[str]:
-  frame = ''
-  frame_number = 1
+def is_spare(frame: str) -> int:
+  return frame[1] == '/'
 
-  for i in range(len(throws)):
+def is_strike(frame: str) -> int:
+  return frame[0] == 'X'
+
+def split_frames(throws: str) -> Iterator[str]:
+  frame_number = 1
+  i = 0
+
+  while i < len(throws):
     if frame_number == 10:
       yield throws[i:]
       return
 
     else:
-      throw = throws[i]
-      frame += throw
+      end = i + 2
+      frame = throws[i:end]
 
-      if throw == 'X' or len(frame) == 2:
-        yield frame
-        frame = ''
-        frame_number += 1
+      if is_strike(frame):
+        yield frame + throws[end: end + 1]
+
+      else:
+        if is_spare(frame):
+          yield frame + throws[end: end + 1]
+        else:
+          yield frame
+
+        i += 1
+
+      frame_number += 1
+      i += 1
 
 def score_throws(throws: str) -> int:
   return sum(map(score_throw, throws))

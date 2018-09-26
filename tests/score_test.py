@@ -28,14 +28,14 @@ class ScoringTest(TestCase):
   #   self.assertEqual(score_game('5/5/5/5/5/5/5/5/5/5/5'), 150)
 
   def test_split_frame(self):
-    self.assertEqual(list(split_frames('9XX')), ['9X', 'X'])
+    self.assertEqual(list(split_frames('9-XX')), ['9-', 'XX', 'X'])
 
   def test_split_frames_with_tenth(self):
     self.assertEqual(list(split_frames('XXXXXXXXXXXX')),
-      ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'XXX'])
+      ['XXX', 'XXX', 'XXX', 'XXX', 'XXX', 'XXX', 'XXX', 'XXX', 'XXX', 'XXX'])
 
     self.assertEqual(list(split_frames('5/5/5/5/5/5/5/5/5/5/5')),
-      ['5/', '5/', '5/', '5/', '5/', '5/', '5/', '5/', '5/', '5/5'])
+      ['5/5', '5/5', '5/5', '5/5', '5/5', '5/5', '5/5', '5/5', '5/5', '5/5'])
 
   # def test_score_tenth(self):
   #   self.assertEqual(score_throws('5/5'), 15)
