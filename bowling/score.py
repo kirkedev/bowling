@@ -1,8 +1,5 @@
 from typing import Iterator, Tuple, List
 
-Throw = Tuple[int, str]
-Frame = List[Throw]
-
 def score_throw(throw: str) -> int:
   if throw in ('X', '/'):
     return 10
@@ -13,24 +10,25 @@ def score_throw(throw: str) -> int:
   else:
     return int(throw)
 
-def split_frames(throws: str) -> Iterator[Frame]:
-  frame: List[Throw] = []
+def split_frames(throws: str) -> Iterator[str]:
+  frame = ''
   frame_number = 1
 
-  for i, throw in enumerate(throws):
+  for i in range(len(throws)):
     if frame_number == 10:
-      yield list(zip(range(i, len(throws)), throws[i:]))
+      yield throws[i:]
       return
 
     else:
-      frame.append((i, throw))
+      throw = throws[i]
+      frame += throw
 
       if throw == 'X' or len(frame) == 2:
-        yield frame.copy()
-        frame.clear()
+        yield frame
+        frame = ''
         frame_number += 1
 
-def score_frame(throws: str, frame: Frame) -> int:
+def score_frame(throws: str, frame: str) -> int:
   throw, *_ = frame
 
   if throw[1] == 'X':
