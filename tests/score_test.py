@@ -36,6 +36,10 @@ class ScoringTest(TestCase):
     self.assertEqual(list(split_frames('5/5/5/5/5/5/5/5/5/5/5')),
       ['5/5', '5/5', '5/5', '5/5', '5/5', '5/5', '5/5', '5/5', '5/5', '5/5'])
 
+  def test_score_game(self):
+    *_, final = score_game('9-9-9-9-9-9-9-9-9-9-')
+    self.assertEqual(final, 90)
+
   def test_multiple_throws_spare(self):
     *_, final = score_game('5/5/5/5/5/5/5/5/5/5/5')
     self.assertEqual(final, 150)
