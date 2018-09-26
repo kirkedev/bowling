@@ -1,5 +1,5 @@
 from unittest import TestCase
-from bowling.score import score_throw, score_throws, split_frames
+from bowling.score import score_throw, score_game, split_frames
 
 class ScoringTest(TestCase):
   def test_x_is_ten(self):
@@ -16,16 +16,16 @@ class ScoringTest(TestCase):
     self.assertEqual(score_throw('5'), 5)
 
   def test_multiple_throws(self):
-    self.assertEqual(score_throws('9876'), 30)
-    self.assertEqual(score_throws('----'), 0)
-    self.assertEqual(score_throws('9--6'), 15)
+    self.assertEqual(score_game('9876'), 30)
+    self.assertEqual(score_game('----'), 0)
+    self.assertEqual(score_game('9--6'), 15)
 
   def test_multiple_throws_strike(self):
-    self.assertEqual(score_throws('X12'), 16)
+    self.assertEqual(score_game('X12'), 16)
 
   def test_multiple_throws_spare(self):
-    self.assertEqual(score_throws('4/12'), 14)
-    self.assertEqual(score_throws('5/5/5/5/5/5/5/5/5/5/5'), 150)
+    self.assertEqual(score_game('4/12'), 14)
+    self.assertEqual(score_game('5/5/5/5/5/5/5/5/5/5/5'), 150)
 
   def test_split_frame(self):
     self.assertEqual(list(split_frames('9XX')), [[(0, '9'), (1, 'X')], [(2,'X')]])
